@@ -40,6 +40,7 @@ public class SocialMediaController {
         app.get("messages", this::getAllMessagesHandler);
         app.get("/messages/{message_id}", this::getMessageHandler);
         app.delete("/messages/{message_id}", this::deleteMessageHandler);
+        app.patch("/messages/{message_id}", this::updateMessageHandler);
 
         return app;
     }
@@ -109,6 +110,19 @@ public class SocialMediaController {
             ctx.json(om.writeValueAsString(message));
         } else {
             ctx.result("");
+        }
+    }
+
+    private void updateMessageHandler(Context ctx) throws JsonProcessingException {
+        ObjectMapper om = new ObjectMapper();
+        int message_id = ctx.pathParamAsClass("message_id", Integer.class).get();
+        Message message = om.readValue(ctx.body(), Message.class);
+        message.setMessage_id(message_id);
+        Message updatedMessage = messageService.updateMessage(message);
+        if (updatedMessage != null) {
+            ctx.json(om.writeValueAsString(updatedMessage));
+        } else {
+            ctx.status(400);
         }
     }
 }

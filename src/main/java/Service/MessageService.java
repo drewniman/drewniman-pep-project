@@ -43,4 +43,16 @@ public class MessageService {
     public Message deleteMessageById(int id) {
         return messageDAO.deleteMessageById(id);
     }
+
+    public Message updateMessage(Message message) {
+        if (
+            message.getMessage_text().isEmpty() ||
+            message.getMessage_text().length() > 255 ||
+            !messageDAO.updateMessage(message)
+        ) {
+            return null;
+        }
+            
+        return messageDAO.getMessageById(message.getMessage_id());
+    }
 }
