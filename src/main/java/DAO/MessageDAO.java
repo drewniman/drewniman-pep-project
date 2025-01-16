@@ -3,8 +3,6 @@ package DAO;
 import Model.Message;
 import Util.ConnectionUtil;
 
-import static org.mockito.ArgumentMatchers.nullable;
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
