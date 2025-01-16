@@ -3,6 +3,8 @@ package DAO;
 import Model.Message;
 import Util.ConnectionUtil;
 
+import static org.mockito.ArgumentMatchers.nullable;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -77,5 +79,24 @@ public class MessageDAO {
             System.out.println(e.getMessage());
         }
         return null;
+    }
+
+    public boolean deleteMessageById(int id) {
+        Connection connection = ConnectionUtil.getConnection();
+
+        try {
+            String sql = "DELETE FROM message WHERE message_id = ?";
+            PreparedStatement ps = connection.prepareStatement(sql);
+
+            ps.setInt(1, id);
+
+            int rows = ps.executeUpdate();
+            if (rows > 0) {
+                return true;
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return false;
     }
 }
