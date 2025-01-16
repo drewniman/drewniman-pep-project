@@ -79,7 +79,12 @@ public class MessageDAO {
         return null;
     }
 
-    public boolean deleteMessageById(int id) {
+    public Message deleteMessageById(int id) {
+        Message message = getMessageById(id);
+        if (message == null) {
+            return null;
+        }
+
         Connection connection = ConnectionUtil.getConnection();
 
         try {
@@ -88,13 +93,10 @@ public class MessageDAO {
 
             ps.setInt(1, id);
 
-            int rows = ps.executeUpdate();
-            if (rows > 0) {
-                return true;
-            }
+            ps.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
-        return false;
+        return message;
     }
 }
